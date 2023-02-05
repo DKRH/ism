@@ -27,17 +27,15 @@
                 <span>Data Anggota DPRD</span></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="{{ url('list-rapat') }}">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Data Rapat</span></a>
-        </li>
-        <!--
-        <li class="nav-item">
             <a class="nav-link" href="{{ url('data-perangkat-daerah') }}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Data Perangkat Desa</span></a>
         </li>
-        -->
+        <li class="nav-item">
+            <a class="nav-link" href="{{ url('list-rapat') }}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Data Rapat</span></a>
+        </li>
         <li class="nav-item">
             <a class="nav-link" target="_blank" href="{{ url('form-hadir') }}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>

@@ -5,6 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\AnggotaDPRD as tbl1;
+use App\Models\PerangkatDaerah as tbl2;
+use App\Models\Umum as tbl3;
 
 class RelasiRapat extends Model
 {
@@ -18,4 +21,16 @@ class RelasiRapat extends Model
         'perangkat_daerah_id',
         'anggota_dprd_id',
     ];
+
+    public function getData1($id) {
+        return tbl3::where('id',$id)->first();
+    }
+
+    public function getData2($id) {
+        return tbl2::where('id',$id)->first();
+    }
+
+    public function getData3($id) {
+        return tbl1::where('id',$id)->first();
+    }
 }

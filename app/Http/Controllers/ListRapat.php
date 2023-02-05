@@ -31,11 +31,14 @@ class ListRapat extends Controller
                 }
                 return $html;
             })
+            ->addColumn('admin', function (tbl $post) {
+                return $post->admin($post->admin_id);
+            })
             ->addColumn('total', function (tbl $post) {
                 return count($post->list_peserta);
             })
             ->addColumn('action', $btn)
-            ->rawColumns(['action','stataktif'])
+            ->rawColumns(['action','stataktif','admin'])
             ->addIndexColumn()
             ->make(true);
         }
@@ -51,8 +54,9 @@ class ListRapat extends Controller
                         [
                             'judul_rapat' => $request->judul_rapat,
                             'tanggal_rapat' => $request->tanggal_rapat,
-                            'waktu' => $request->waktu,
+                            'jumlah_kursi' => $request->jumlah_kursi,
                             'deskripsi_rapat' => $request->deskripsi_rapat,
+                            'admin_id' => $request->admin_id,
                         ]
                     );
         return Response()->json($data);
@@ -77,14 +81,52 @@ class ListRapat extends Controller
         $data['status'] = 'sukses';
         return Response()->json($data);
     }
+    private function ts($post) {
+        $d = [];
+        if ($post->umum_id != 0) {
+            $id = $post->umum_id;
+            $d['tipe'] = "UMUM";
+            $a = $post->getData1($id);
+            $d['nama'] = $a->nama;
+            $d['jabatan'] = $a->status;
+        } else if ($post->perangkat_daerah_id != 0) {
+            $id = $post->perangkat_daerah_id;
+            $d['tipe'] = "PERANGKAT DESA";
+            $a = $post->getData2($id);
+            $d['nama'] = $a->nama;
+            $d['jabatan'] = $a->jabatan;
+        } else if ($post->anggota_dprd_id != 0) {
+            $id = $post->anggota_dprd_id;
+            $d['tipe'] = "ANGGOTA DPRD";
+            $a = $post->getData3($id);
+            $d['nama'] = $a->nama;
+            $d['jabatan'] = $a->jabatan;
+        }
+        return $d;
+    }
     public function detail(Request $request)
     {
         if($request->ajax()) {
-            $umum = tbl3::select("data_umum.nama as nama","data_umum.status as jabatan",DB::raw("CONCAT('UMUM') as tipe"));
+            /*$umum = tbl3::select("data_umum.nama as nama","data_umum.status as jabatan",DB::raw("CONCAT('UMUM') as tipe"));
             $dprd = tbl1::select("data_anggota_dprd.nama as nama","data_anggota_dprd.jabatan as jabatan",DB::raw("CONCAT('DPRD') AS tipe"))->union($umum);
-            $desa = tbl2::select("data_perangkat_daerah.nama as nama","data_perangkat_daerah.jabatan as jabatan",DB::raw("CONCAT('DESA') AS tipe"))->union($dprd);
+            $desa = tbl2::select("data_perangkat_daerah.nama as nama","data_perangkat_daerah.jabatan as jabatan",DB::raw("CONCAT('DESA') AS tipe"))->union($dprd);*/
             
-            return Datatables::of($desa)
+            $detail = tbl0::where('rapat_id', $request->idrapat);
+            
+            return Datatables::of(tbl0::where('rapat_id', $request->idrapat)->orderBy('created_at'))
+            ->addColumn('tipe', function (tbl0 $post) {
+                $d = $this->ts($post);
+                return $d['tipe'];
+            })
+            ->addColumn('nama', function (tbl0 $post) {
+                $d = $this->ts($post);
+                return $d['nama'];
+            })
+            ->addColumn('jabatan', function (tbl0 $post) {
+                $d = $this->ts($post);
+                return $d['jabatan'];
+            })
+            ->rawColumns(['tipe','nama','jabatan'])
             ->addIndexColumn()
             ->make(true);
         }

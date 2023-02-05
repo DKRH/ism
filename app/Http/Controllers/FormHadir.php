@@ -32,7 +32,12 @@ class FormHadir extends Controller
     public function formHadirSearch(Request $request)
     {
         $text = $request->text;
-        $dd = tbl1::where('nama','LIKE','%'.$text.'%')->get();
+        $tipe = $request->tipe;
+        if ($tipe == "desa") {
+            $dd = tbl2::where('nama','LIKE','%'.$text.'%')->get();
+        } else if ($tipe == "dprd") {
+            $dd = tbl1::where('nama','LIKE','%'.$text.'%')->get();
+        }
         $html = '';
         foreach ($dd as $v) {
             $html .= '<tr><td>'.$v->nama.'</td><td><button type="button" class="btn btn-success btnPilih" data-id='.$v->id.' data-nama='.$v->nama.' data-jabatan='.$v->jabatan.'>Pilih</button></td></tr>';
@@ -77,19 +82,12 @@ class FormHadir extends Controller
                 ]
             );
         } else if ($type == 'desa') {
-            $data   =   tbl2::create(
-                            [
-                                'nama' => $request->nama,
-                                'jabatan' => $request->jabatan,
-                            ]
-                        );
-            $id = $data->id;
             $data   =   tbl0::create(
                 [
                     'nama' => $request->nama,
                     'rapat_id' => $request->rapat_id,
                     'umum_id' => 0,
-                    'perangkat_daerah_id' => $id,
+                    'perangkat_daerah_id' => $request->id,
                     'anggota_dprd_id' => 0,
                 ]
             );
@@ -100,7 +98,12 @@ class FormHadir extends Controller
     public function formHadirHitung(Request $request)
     {
         $id = $request->id;
-        $dd = tbl0::where('rapat_id',$id)->count();
+        $dd['hadir'] = tbl0::where('rapat_id',$id)->count();
+        $tbl1 = tbl4::where('id',$id)->first();
+        $jka = 0;
+        $jka = (isset($tbl1)) ? $tbl1->jumlah_kursi : 0;
+        $jkb = $jka - $dd['hadir'];
+        $dd['kursi'] = ($jkb < 0 ) ? 0 : $jkb;
         return Response()->json($dd);
     }
     

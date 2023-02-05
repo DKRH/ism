@@ -25,6 +25,7 @@ Route::get('/', function() {
 Route::controller(Dashboard::class)->group(function () {
     Route::get('/login', 'login')->name('login');
     Route::get('/getData', 'chart')->name('dashboard.getData');
+    Route::get('/getData2', 'chart2')->name('dashboard.getData2');
     Route::POST('/login-validation', 'login_validation')->name('login.validation');
 });
 Route::middleware('check_login')->group(function () {

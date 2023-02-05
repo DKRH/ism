@@ -14,10 +14,11 @@
                         <tr>
                             <th>No</th>
                             <th>Tanggal</th>
-                            <th>Waktu</th>
                             <th>Judul</th>
                             <th>Deskripsi</th>
+                            <th>Jumlah Kursi</th>
                             <th>Total Peserta</th>
+                            <th>Admin</th>
                             <th>Stat Aktif</th>
                             <th>Opsi</th>
                         </tr>
@@ -38,16 +39,11 @@
                 <div class="modal-body">
                         @csrf
                         <input type="hidden" name="id" id="id">
+                        <input type="hidden" name="admin_id" id="admin_id">
                         <div class="form-group">
                             <label for="name" class="col-sm-6 control-label">Tanggal</label>
                             <div class="col-sm-12">
                                 <input type="date" class="form-control" id="tanggal_rapat" name="tanggal_rapat" placeholder="Tanggal Rapat" maxlength="50" required="">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">Waktu</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="waktu" name="waktu" placeholder="Waktu" required="">
                             </div>
                         </div>
                         <div class="form-group">
@@ -60,6 +56,12 @@
                             <label for="name" class="col-sm-2 control-label">Deskripsi</label>
                             <div class="col-sm-12">
                                 <input type="text" class="form-control" id="deskripsi_rapat" name="deskripsi_rapat" placeholder="Deskripsi" required="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">Jumlah Kursi</label>
+                            <div class="col-sm-12">
+                                <input type="number" class="form-control" id="jumlah_kursi" name="jumlah_kursi" placeholder="Jumlah Kursi" required="">
                             </div>
                         </div>
                 </div>
@@ -84,10 +86,11 @@
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 { data: 'tanggal_rapat2', name: 'tanggal_rapat' },
-                { data: 'waktu', name: 'waktu' },
                 { data: 'judul_rapat', name: 'judul_rapat' },
                 { data: 'deskripsi_rapat', name: 'deskripsi_rapat' },
+                { data: 'jumlah_kursi', name: 'jumlah_kursi' },
                 { data: 'total', name: 'total' },
+                { data: 'admin', name: 'admin' },
                 { data: 'stataktif', name: 'stataktif' },
                 { data: 'action', name: 'action' },
             ]
@@ -98,6 +101,11 @@
             $('#xmodal_title').html("Tambah Data");
             $('#xmodal').modal('show');
             $('#id').val('');
+            $('#judul_rapat').val('');
+            $('#tanggal_rapat').val('');
+            $('#deskripsi_rapat').val('');
+            $('#jumlah_kursi').val('');
+            $('#admin_id').val('{{ Session::get('id')  }}');
         });
 
         $(document).on('click','.edit',function (){
@@ -112,8 +120,9 @@
                     $('#id').val(res.id);
                     $('#judul_rapat').val(res.judul_rapat);
                     $('#tanggal_rapat').val(res.tanggal_rapat);
-                    $('#waktu').val(res.waktu);
                     $('#deskripsi_rapat').val(res.deskripsi_rapat);
+                    $('#jumlah_kursi').val(res.jumlah_kursi);
+                    $('#admin_id').val(res.admin_id);
                 }
             });
         });

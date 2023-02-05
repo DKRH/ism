@@ -87,4 +87,25 @@ class Dashboard extends Controller
 
         return Response()->json($data);
     }
+    public function chart2() {
+        $aaa = tbl::all();
+        $databulan = [];
+        $datahadir = [];
+        foreach ($aaa as $val) {
+            $databulan[] = $val->judul_rapat;
+
+            $datahadir[] = count($val->list_peserta);
+        }
+        array_slice($databulan, 0, 12);
+        array_slice($datahadir, 0, 12);
+        $data['labels'] = $databulan;
+        $data['datas'] = $datahadir;
+        $data['jumlahmax'] = max($datahadir)+10;
+        if ( (max($datahadir) % 10) > 0 ) {
+            $sel = max($datahadir) % 10;
+            $h = 10 - $sel;
+            $data['jumlahmax'] += $h;
+        }
+        return Response()->json($data);
+    }
 }

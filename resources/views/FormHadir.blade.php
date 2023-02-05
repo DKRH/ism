@@ -6,7 +6,7 @@
         <div class="col-xl-6 col-lg-6 col-md-6"></div>
         <div class="col-xl-6 col-lg-6 col-md-6">
             <div class="card o-hidden border-0">
-                <div class="card-body p-0" style="height: 100vh">
+                <div class="card-body p-0">
                     <div class="row">
                         <div class="col-lg-12">
                             
@@ -35,6 +35,11 @@
                                         <td>Jumlah Hadir</td>
                                         <td>:</td>
                                         <td id="jumlahhadirhtml"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Jumlah Kursi Tersisa</td>
+                                        <td>:</td>
+                                        <td id="jumlahkursisisa"></td>
                                     </tr>
                                 </table>
                             </div>
@@ -156,15 +161,19 @@
     });
     $('#klik3').click(function() {
         klikerrr('#klik3', '#status', 'desa', '#email');
+        $('#cariGroup').show();
+        $('#nama').attr("readonly", true); 
+        $('#jabatan').attr("readonly", true);
     });
     klikerrr('#klik1', '#jabatan', 'umum');
     
     $('#cariBtn').click(function() {
+        let tp = $('#type').val();
         let text = $('#cariInput').val();
         $.ajax({
             type : 'POST',
             url: "{{ route('formHadirSearch') }}",
-            data: {'text':text},
+            data: {'text':text,'tipe':tp},
             success: (data) =>
             {
                 if (data.kode == 'sukses') {
@@ -194,7 +203,8 @@
             data: {'id':id},
             success: (data) =>
             {
-                $('#jumlahhadirhtml').text(data);
+                $('#jumlahhadirhtml').text(data.hadir);
+                $('#jumlahkursisisa').text(data.kursi);
             },
         });
     }

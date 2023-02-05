@@ -78,6 +78,8 @@
             $('#xmodal_title').html("Tambah Data");
             $('#xmodal').modal('show');
             $('#id').val('');
+            $('#nama').val('');
+            $('#jabatan').val('');
         });
 
         $(document).on('click','.edit',function (){
