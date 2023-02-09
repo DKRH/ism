@@ -28,7 +28,7 @@ class FormHadir extends Controller
         $z = tbl4::where('id', $id)->orderBy('tanggal_rapat')->first();
         $data1 = tbl1::orderBy('nama')->get();
         $data2 = tbl2::orderBy('nama')->get();
-        return view('formHadir')->with('data1', $data1)->with('data2', $data2)->with('dataRapat', $z);
+        return view('FormHadir')->with('data1', $data1)->with('data2', $data2)->with('dataRapat', $z);
     }
     public function formHadirSearch(Request $request)
     {
