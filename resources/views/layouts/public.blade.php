@@ -12,7 +12,7 @@
     <style>
         #content {
             overflow: hidden;
-            background-image: url({{ URL::asset('img/bg.webp') }});
+            background-image: url({{ URL::asset('img/bg.jpg') }});
             background-size: cover;
         }
         .tabs {

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\AnggotaDPRD as tbl1;
 use App\Models\PerangkatDaerah as tbl2;
 use App\Models\Umum as tbl3;
+use App\Models\Fork as tbl4;
 
 class RelasiRapat extends Model
 {
@@ -20,6 +21,7 @@ class RelasiRapat extends Model
         'umum_id',
         'perangkat_daerah_id',
         'anggota_dprd_id',
+        'fork_id',
     ];
 
     public function getData1($id) {
@@ -32,5 +34,9 @@ class RelasiRapat extends Model
 
     public function getData3($id) {
         return tbl1::where('id',$id)->first();
+    }
+
+    public function getData4($id) {
+        return tbl4::where('id',$id)->first();
     }
 }

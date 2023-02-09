@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid">
-    <h1 class="h3 mb-2 text-gray-800">Data UPD dan Sekretariat</h1>
+    <h1 class="h3 mb-2 text-gray-800">Data Forkopinda</h1>
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <button class="btn btn-primary" id="add">Tambah Data</button>
@@ -14,7 +14,6 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Jabatan</th>
                             <th>Opsi</th>
                         </tr>
                     </thead>
@@ -40,12 +39,6 @@
                                 <input type="text" class="form-control" id="nama" name="nama" placeholder="Nama" required="">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">Jabatan</label>
-                            <div class="col-sm-12">
-                                <input type="text" class="form-control" id="jabatan" name="jabatan" placeholder="Jabatan" required="">
-                            </div>
-                        </div>
                 </div>
                 <div class="modal-footer">
                     <div class="col-sm-offset-2 col-sm-10">
@@ -57,18 +50,16 @@
     </div>
 </div>
 @endsection
-                
 
 @section('scripts')
     $(function() {
         $('#users-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{!! url('/data-perangkat-daerah') !!}',
+            ajax: '{!! url('/fork') !!}',
             columns: [
                 { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
                 { data: 'nama', name: 'nama' },
-                { data: 'jabatan', name: 'jabatan' },
                 { data: 'action', name: 'action' },
             ]
         });
@@ -79,12 +70,11 @@
             $('#xmodal').modal('show');
             $('#id').val('');
             $('#nama').val('');
-            $('#jabatan').val('');
         });
 
         $(document).on('click','.edit',function (){
             var id = $(this).data('id');
-            url = "{{ route('data-perangkat-daerah.edit', ':id') }}";
+            url = "{{ route('fork.edit', ':id') }}";
             url = url.replace(':id', id);
             $.ajax({
                 url: url,
@@ -93,7 +83,6 @@
                     $('#xmodal').modal('show');
                     $('#id').val(res.id);
                     $('#nama').val(res.nama);
-                    $('#jabatan').val(res.jabatan);
                 }
             });
         });
@@ -110,7 +99,7 @@
             }).then((result) => {
                 if (result.isConfirmed)
                 {
-                    url = "{{ route('data-perangkat-daerah.destroy', ':id') }}";
+                    url = "{{ route('fork.destroy', ':id') }}";
                     url = url.replace(':id', id);
                     $.ajax({
                         type    : 'DELETE',
@@ -136,7 +125,7 @@
             var formData = new FormData(this);
             $.ajax({
                 type : 'POST',
-                url: "{{ route('data-perangkat-daerah.store')}}",
+                url: "{{ route('fork.store')}}",
                 data: formData,
                 cache:false,
                 contentType: false,

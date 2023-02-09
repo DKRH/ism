@@ -27,9 +27,14 @@
                 <span>Data Anggota DPRD</span></a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="{{ url('fork') }}">
+                <i class="fas fa-fw fa-tachometer-alt"></i>
+                <span>Forkopinda</span></a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{{ url('data-perangkat-daerah') }}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Data Perangkat Desa</span></a>
+                <span>Data UPD dan Sekretariat</span></a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="{{ url('list-rapat') }}">

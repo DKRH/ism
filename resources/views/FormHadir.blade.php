@@ -11,9 +11,10 @@
                         <div class="col-lg-12">
                             
                             <ul class="tabs">
-                                <li role="presentation" class="active"><b id="klik1">Umum</b></li>
-                                <li role="presentation"><b id="klik2">Anggota DPRD</b></li>
-                                <li role="presentation"><b id="klik3">Perangkat Desa</b></li>
+                                <li role="presentation" class="active"><b id="klik2">Anggota DPRD</b></li>
+                                <li role="presentation"><b id="klik4">Forkopinda</b></li>
+                                <li role="presentation"><b id="klik3">UPD dan Sekretariat</b></li>
+                                <li role="presentation"><b id="klik1">Umum</b></li>
                             </ul>
                             <div class="p-5" style="padding-bottom:0px!important;">
                                 <hr/>
@@ -115,6 +116,7 @@
                 $('#cariHasil').html('');
                 jumlahhadirhitung();
                 if (data.status == 'sukses') {
+                    console.log(data);
                     Swal.fire({
                         icon: 'success',
                         title: 'Sudah TerLog',
@@ -128,10 +130,11 @@
             },
         });
     });
-    function klikerrr(i1,i2,i3,i4='') {
+    function klikerrr(i1,i2,i3,i4='',i5='') {
         $('#klik1').parent().removeClass('active');
         $('#klik2').parent().removeClass('active');
         $('#klik3').parent().removeClass('active');
+        $('#klik4').parent().removeClass('active');
         $(i1).parent().addClass('active');
         $('#email').show();
         $('#status').show();
@@ -148,6 +151,7 @@
         $('#cariHasil').html('');
         $(i2).hide();
         $(i4).hide();
+        $(i5).hide();
         $('#type').val(i3);
     }
     $('#klik1').click(function() {
@@ -165,7 +169,15 @@
         $('#nama').attr("readonly", true); 
         $('#jabatan').attr("readonly", true);
     });
-    klikerrr('#klik1', '#jabatan', 'umum');
+    $('#klik4').click(function() {
+        klikerrr('#klik4', '#status', 'fork', '#email', '#jabatan');
+        $('#cariGroup').show();
+        $('#nama').attr("readonly", true);
+    });
+    klikerrr('#klik2', '#status', 'dprd', '#email');
+    $('#cariGroup').show();
+    $('#nama').attr("readonly", true); 
+    $('#jabatan').attr("readonly", true);
     
     $('#cariBtn').click(function() {
         let tp = $('#type').val();

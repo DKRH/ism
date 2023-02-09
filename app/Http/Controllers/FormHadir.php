@@ -9,6 +9,7 @@ use App\Models\AnggotaDPRD as tbl1;
 use App\Models\PerangkatDaerah as tbl2;
 use App\Models\Umum as tbl3;
 use App\Models\ListRapat as tbl4;
+use App\Models\Fork as tbl5;
 
 class FormHadir extends Controller
 {
@@ -37,10 +38,16 @@ class FormHadir extends Controller
             $dd = tbl2::where('nama','LIKE','%'.$text.'%')->get();
         } else if ($tipe == "dprd") {
             $dd = tbl1::where('nama','LIKE','%'.$text.'%')->get();
+        } else if ($tipe == "fork") {
+            $dd = tbl5::where('nama','LIKE','%'.$text.'%')->get();
         }
         $html = '';
         foreach ($dd as $v) {
-            $html .= '<tr><td>'.$v->nama.'</td><td><button type="button" class="btn btn-success btnPilih" data-id='.$v->id.' data-nama='.$v->nama.' data-jabatan='.$v->jabatan.'>Pilih</button></td></tr>';
+            $dewa = 'data-jabatan=""';
+            if ($tipe == "desa" || $tipe == "dprd" ) {
+                $dewa = 'data-jabatan="'.$v->jabatan.'"';
+            }
+            $html .= '<tr><td>'.$v->nama.'</td><td><button type="button" class="btn btn-success btnPilih" data-id='.$v->id.' data-nama='.$v->nama.' '.$dewa.' >Pilih</button></td></tr>';
         }
         $data['kode'] = 'sukses';
         $data['msg'] = $html;
@@ -53,6 +60,7 @@ class FormHadir extends Controller
     public function formHadirCheckin(Request $request)
     {
         $type = $request->tipedata;
+        $aid = $request->id;
         if ($type == 'umum') {
             $data   =   tbl3::create(
                             [
@@ -69,6 +77,7 @@ class FormHadir extends Controller
                                 'umum_id' => $id,
                                 'perangkat_daerah_id' => 0,
                                 'anggota_dprd_id' => 0,
+                                'fork_id' => 0,
                             ]
                         );
         } else if ($type == 'dprd') {
@@ -78,7 +87,8 @@ class FormHadir extends Controller
                     'rapat_id' => $request->rapat_id,
                     'umum_id' => 0,
                     'perangkat_daerah_id' => 0,
-                    'anggota_dprd_id' => $request->id,
+                    'anggota_dprd_id' => $aid,
+                    'fork_id' => 0,
                 ]
             );
         } else if ($type == 'desa') {
@@ -87,12 +97,24 @@ class FormHadir extends Controller
                     'nama' => $request->nama,
                     'rapat_id' => $request->rapat_id,
                     'umum_id' => 0,
-                    'perangkat_daerah_id' => $request->id,
+                    'perangkat_daerah_id' => $aid,
                     'anggota_dprd_id' => 0,
+                    'fork_id' => 0,
+                ]
+            );
+        } else if ($type == 'fork') {
+            $data   =   tbl0::create(
+                [
+                    'rapat_id' => $request->rapat_id,
+                    'umum_id' => 0,
+                    'perangkat_daerah_id' => 0,
+                    'anggota_dprd_id' => 0,
+                    'fork_id' => $aid,
                 ]
             );
         } 
         $dataz['status'] = 'sukses';
+        $data2['data'] = $request->id;
         return Response()->json($dataz);
     }
     public function formHadirHitung(Request $request)

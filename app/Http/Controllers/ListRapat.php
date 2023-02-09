@@ -91,7 +91,7 @@ class ListRapat extends Controller
             $d['jabatan'] = $a->status;
         } else if ($post->perangkat_daerah_id != 0) {
             $id = $post->perangkat_daerah_id;
-            $d['tipe'] = "PERANGKAT DESA";
+            $d['tipe'] = "UPD dan Sekretariat";
             $a = $post->getData2($id);
             $d['nama'] = $a->nama;
             $d['jabatan'] = $a->jabatan;
@@ -101,6 +101,12 @@ class ListRapat extends Controller
             $a = $post->getData3($id);
             $d['nama'] = $a->nama;
             $d['jabatan'] = $a->jabatan;
+        } else if ($post->fork_id != 0) {
+            $id = $post->fork_id;
+            $d['tipe'] = "FORKOPINDA";
+            $a = $post->getData4($id);
+            $d['nama'] = $a->nama;
+            $d['jabatan'] = '';
         }
         return $d;
     }

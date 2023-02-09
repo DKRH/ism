@@ -16,6 +16,7 @@ use App\Http\Controllers\ListRapat;
 use App\Http\Controllers\ListPeserta;
 use App\Http\Controllers\Dashboard;
 use App\Http\Controllers\DataAnggotaDPRD;
+use App\Http\Controllers\DataFork;
 use App\Http\Controllers\DataPerangkatDaerah;
 use App\Http\Controllers\FormHadir;
 
@@ -37,6 +38,7 @@ Route::middleware('check_login')->group(function () {
         Route::get('/profil', 'profil')->name('profil');
     });
     Route::resource('/data-anggota-dprd', DataAnggotaDPRD::class);
+    Route::resource('/fork', DataFork::class);
     Route::resource('/data-perangkat-daerah', DataPerangkatDaerah::class);
     Route::resource('/list-rapat', ListRapat::class);
     Route::post('/list-rapat/stataktif', [ListRapat::class,'stataktif'])->name('list-rapat.stataktif');
