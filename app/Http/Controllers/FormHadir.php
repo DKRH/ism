@@ -47,7 +47,7 @@ class FormHadir extends Controller
             if ($tipe == "desa" || $tipe == "dprd" ) {
                 $dewa = 'data-jabatan="'.$v->jabatan.'"';
             }
-            $html .= '<tr><td>'.$v->nama.'</td><td><button type="button" class="btn btn-success btnPilih" data-id='.$v->id.' data-nama='.$v->nama.' '.$dewa.' >Pilih</button></td></tr>';
+            $html .= '<tr><td>'.$v->nama.'</td><td><button type="button" class="btn btn-success btnPilih" data-id='.$v->id.' data-nama="'.$v->nama.'" '.$dewa.' >Pilih</button></td></tr>';
         }
         $data['kode'] = 'sukses';
         $data['msg'] = $html;
