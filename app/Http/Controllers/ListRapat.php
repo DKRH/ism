@@ -10,6 +10,7 @@ use App\Models\AnggotaDPRD as tbl1;
 use App\Models\PerangkatDaerah as tbl2;
 use App\Models\Umum as tbl3;
 use DB;
+use PDF;
 
 class ListRapat extends Controller
 {
@@ -110,8 +111,7 @@ class ListRapat extends Controller
         }
         return $d;
     }
-    public function detail(Request $request)
-    {
+    public function detail(Request $request) {
         if($request->ajax()) {
             /*$umum = tbl3::select("data_umum.nama as nama","data_umum.status as jabatan",DB::raw("CONCAT('UMUM') as tipe"));
             $dprd = tbl1::select("data_anggota_dprd.nama as nama","data_anggota_dprd.jabatan as jabatan",DB::raw("CONCAT('DPRD') AS tipe"))->union($umum);
@@ -137,5 +137,23 @@ class ListRapat extends Controller
             ->make(true);
         }
         return view('listrapatdetail')->with('idrapat', $request->idrapat);
+    }
+    public function cetakpdf(Request $request) {
+        $id = $request->idrapat;
+        $data = [];
+        $detail = tbl0::where('rapat_id', $request->idrapat)->orderBy('created_at')->get();
+        $no = 1;
+        foreach($detail as $v) {
+            $data[$no] = $v->toArray();
+            $zz = $this->ts($v);
+            $data[$no]['no'] = $no;
+            $data[$no]['tipe'] = $zz['tipe'];
+            $data[$no]['nama'] = $zz['nama'];
+            $data[$no]['jabatan'] = $zz['jabatan'];
+            $no++;
+        }
+
+        $pdf = PDF::loadView('templateCetak.listrapat', ['data' => $data]);
+        return $pdf->stream('resume.pdf');
     }
 }

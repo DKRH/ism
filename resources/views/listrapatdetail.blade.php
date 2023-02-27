@@ -6,6 +6,7 @@
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <a class="btn btn-info" href="{{ url("list-rapat") }}">Kembali</a>
+            <a class="btn btn-warning" href="{{ route("list-rapat.cetak-pdf", $idrapat) }}">Cetak PDF</a>
         </div>
         <div class="card-body">
             <div class="table-responsive">

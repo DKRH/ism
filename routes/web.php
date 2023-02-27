@@ -44,6 +44,7 @@ Route::middleware('check_login')->group(function () {
     Route::post('/list-rapat/stataktif', [ListRapat::class,'stataktif'])->name('list-rapat.stataktif');
     Route::get('/list-rapat-detail/{idrapat}', [ListRapat::class,'detail'])->name('list-rapat.detail');
     Route::post('/list-rapat-detail/{idrapat}', [ListRapat::class,'detail'])->name('list-rapat.detail');
+    Route::get('/list-rapat-detail/cetak-pdf/{idrapat}', [ListRapat::class,'cetakpdf'])->name('list-rapat.cetak-pdf');
 });
 
 Route::controller(FormHadir::class)->group(function () {
